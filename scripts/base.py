@@ -54,7 +54,7 @@ def check_build_version(dir):
       version_number = version_number.replace("\n", "")
       set_env("PRODUCT_VERSION", version_number)
   if ("" == get_env("BUILD_NUMBER")):
-    set_env("BUILD_NUMBER", "0")      
+    set_env("BUILD_NUMBER", "0")
   return
 
 def print_info(info=""):
@@ -138,7 +138,7 @@ def copy_dir(src, dst):
   if is_dir(dst):
     delete_dir(dst)
   try:
-    shutil.copytree(get_path(src), get_path(dst))    
+    shutil.copytree(get_path(src), get_path(dst))
   except OSError as e:
     print('Directory not copied. Error: %s' % e)
   return
@@ -231,7 +231,7 @@ def writeFile(path, data):
   return
 
 # system cmd methods ------------------------------------
-def cmd(prog, args=[], is_no_errors=False):  
+def cmd(prog, args=[], is_no_errors=False):
   ret = 0
   if ("windows" == host_platform()):
     sub_args = args[:]
@@ -246,7 +246,7 @@ def cmd(prog, args=[], is_no_errors=False):
     sys.exit("Error (" + prog + "): " + str(ret))
   return ret
 
-def cmd2(prog, args=[], is_no_errors=False):  
+def cmd2(prog, args=[], is_no_errors=False):
   ret = 0
   command = prog if ("windows" != host_platform()) else get_path(prog)
   for arg in args:
@@ -325,9 +325,9 @@ def set_cwd(dir):
 # git ---------------------------------------------------
 def git_update(repo, is_no_errors=False):
   print("[git] update: " + repo)
-  url = "https://github.com/ONLYOFFICE/" + repo + ".git"
+  url = "https://github.com/arminfelder/" + repo + ".git"
   if config.option("git-protocol") == "ssh":
-    url = "git@github.com:ONLYOFFICE/" + repo + ".git"
+    url = "git@github.com:arminfelder/" + repo + ".git"
   folder = get_script_dir() + "/../../" + repo
   is_not_exit = False
   if not is_dir(folder):
@@ -350,7 +350,7 @@ def qt_setup(platform):
   qt_dir = config.option("qt-dir") if (-1 == platform.find("_xp")) else config.option("qt-dir-xp")
   qt_dir = (qt_dir + "/" + compiler["compiler"]) if platform_is_32(platform) else (qt_dir + "/" + compiler["compiler_64"])
   set_env("QT_DEPLOY", qt_dir + "/bin")
-  return qt_dir  
+  return qt_dir
 
 def qt_version():
   qt_dir = get_env("QT_DEPLOY")
@@ -411,7 +411,7 @@ def qt_copy_plugin(name, out):
   src = get_env("QT_DEPLOY") + "/../plugins/" + name
   if not is_dir(src):
     return
-    
+
   copy_dir(src, out + "/" + name)
 
   if ("windows" == host_platform()):
@@ -419,7 +419,7 @@ def qt_copy_plugin(name, out):
       fileCheck = file[0:-5] + ".dll"
       if is_file(fileCheck):
         delete_file(file)
-    
+
   return
 
 def qt_dst_postfix():
@@ -502,7 +502,7 @@ def generate_plist(path):
   bundle_creator = "Ascensio System SIA"
   if ("" != get_env("PUBLISHER_NAME")):
     bundle_creator = get_env("PUBLISHER_NAME")
-  
+
   bundle_version_natural = readFile(get_script_dir() + "/../../core/Common/version.txt").split(".")
   bundle_version = []
   for n in bundle_version_natural:
@@ -544,7 +544,7 @@ def generate_plist(path):
     fileInfo = codecs.open(fileDst, "w", "utf-8")
     fileInfo.write(content)
     fileInfo.close()
-      
+
   return
 
 def sdkjs_addons_checkout():
