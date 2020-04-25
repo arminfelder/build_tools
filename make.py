@@ -14,6 +14,7 @@ import make_common
 
 # parse configuration
 config.parse()
+config.load_repos()
 
 base_dir = base.get_script_dir(__file__)
 base.set_env("BUILD_PLATFORM", config.option("platform"))

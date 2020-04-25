@@ -1,8 +1,27 @@
 #!/usr/bin/env python
+from pprint import pprint
 
 import base
 import os
 import platform
+import json
+
+def load_repos():
+  global repos
+  repos_file = open(base.get_script_dir() + "/../repos.json", "r")
+  repos = json.loads(repos_file.read())
+
+def repo_url(repo):
+  if repo in repos:
+    return repos[repo]['url']
+  else :
+    return None
+
+def repo_branch(repo):
+  if repo in repos and repos[repo]['branch'] != "":
+    return repos[repo]['branch']
+  else :
+    return None
 
 def parse():
   configfile = open(base.get_script_dir() + "/../config", "r")
@@ -133,3 +152,4 @@ def branding():
   if ("" == branding):
     branding = "onlyoffice"
   return branding
+

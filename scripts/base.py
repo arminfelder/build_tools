@@ -325,7 +325,12 @@ def set_cwd(dir):
 # git ---------------------------------------------------
 def git_update(repo, is_no_errors=False):
   print("[git] update: " + repo)
-  url = "https://github.com/arminfelder/" + repo + ".git"
+  repo_url = config.repo_url(repo)
+  url = ""
+  if repo_url:
+    url = repo_url
+  else:
+    url = "https://github.com/arminfelder/" + repo + ".git"
   if config.option("git-protocol") == "ssh":
     url = "git@github.com:arminfelder/" + repo + ".git"
   folder = get_script_dir() + "/../../" + repo
@@ -339,7 +344,12 @@ def git_update(repo, is_no_errors=False):
   os.chdir(folder)
   cmd("git", ["fetch"], False if ("1" != config.option("update-light")) else True)
   if is_not_exit or ("1" != config.option("update-light")):
-    cmd("git", ["checkout", "-f", config.option("branch")])
+    branch = config.option("branch")
+    if repo_url:
+      branch_override = config.repo_branch(repo)
+      if branch_override:
+        branch = branch_override
+    cmd("git", ["checkout", "-f", branch])
   cmd("git", ["pull"], False if ("1" != config.option("update-light")) else True)
   os.chdir(old_cur)
   return
